@@ -4,7 +4,7 @@
 
 Name:             %{?scl_prefix}%{pkg_name}
 Version:          1.1
-Release:          3.10%{?dist}
+Release:          3.11%{?dist}
 Summary:          Shared component providing resource filtering
 License:          ASL 2.0
 URL:              http://maven.apache.org/shared/%{pkg_name}/index.html
@@ -12,9 +12,9 @@ Source0:          http://repo1.maven.org/maven2/org/apache/maven/shared/%{pkg_na
 BuildArch:        noarch
 
 BuildRequires:    %{?scl_prefix_java_common}maven-local
-BuildRequires:    maven30-maven-shared
-BuildRequires:    maven30-plexus-build-api
-BuildRequires:    maven30-plexus-containers-component-metadata
+BuildRequires:    %{?scl_prefix}maven-shared
+BuildRequires:    %{?scl_prefix}plexus-build-api
+BuildRequires:    %{?scl_prefix}plexus-containers-component-metadata
 
 
 %description
@@ -30,7 +30,7 @@ This package contains the API documentation for %{pkg_name}.
 
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 
 # Replace plexus-maven-plugin with plexus-component-metadata
@@ -39,14 +39,14 @@ set -e -x
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 # Tests use a package that is no longer present in plexus-build-api (v0.0.7)
 %mvn_build -f
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %mvn_install
 %{?scl:EOF}
@@ -60,6 +60,9 @@ set -e -x
 %doc LICENSE NOTICE
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 1.1-3.11
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 1.1-3.10
 - maven33 rebuild
 
